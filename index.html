@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f1e8">
+  <title>PRONO | Student expense tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="PRONO home"><span class="brand-mark">P</span><span>PRONO</span></a>
+      <div class="sidebar-label">Your money, clearer.</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#top" data-view="overview"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-link" href="#activity" data-view="transactions"><span class="nav-icon">↘</span> Transactions</a>
+        <a class="nav-link" href="#budgets" data-view="budgets"><span class="nav-icon">◒</span> Budgets</a>
+        <a class="nav-link" href="#performance" data-view="performance"><span class="nav-icon">★</span> Performance</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card">
+          <span class="tip-spark">✦</span>
+          <strong>Small choices<br>add up.</strong>
+          <p>You’re on track to save $218 this month.</p>
+        </div>
+        <button class="profile-button" id="profile-button" type="button"><span class="avatar" id="profile-avatar">JS</span><span><b id="profile-name">Create account</b><small id="profile-label">Set up your student account</small></span><span class="more">···</span></button>
+      </div>
+    </aside>
+
+    <main id="top" class="main-content">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Wednesday, September 18, 2026</div>
+          <h1 id="page-title">Good morning, <span id="greeting-name">there</span> <span class="wave">✳</span></h1>
+        </div>
+        <div class="top-actions">
+          <label class="currency-picker"><span>Currency</span><select id="currency-select" aria-label="Choose currency"><option value="USD">$ USD</option><option value="INR">₹ INR</option></select></label>
+          <button class="icon-button" type="button" aria-label="Notifications"><span class="notification-dot"></span>♢</button>
+          <button class="primary-button" id="open-modal" type="button"><span class="plus">+</span> Add expense</button>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Monthly summary">
+        <article class="summary-card balance-card">
+          <div class="card-heading"><span>Available to spend</span><button class="kebab" aria-label="More balance options">···</button></div>
+          <strong class="big-number" id="available-balance">$1,284.50</strong>
+          <div class="card-foot"><span class="trend positive">↗ 12.4%</span><span>vs. last month</span></div>
+          <div class="balance-line"><span></span></div>
+        </article>
+        <article class="summary-card">
+          <div class="card-heading"><span>Spent this month</span><span class="mini-icon coral">↘</span></div>
+          <strong class="big-number" id="spent-total">$745.50</strong>
+          <div class="card-foot"><span class="trend negative">↑ 8.2%</span><span>vs. last month</span></div>
+          <div class="progress-track"><span class="progress-fill coral-fill" id="spent-progress"></span></div>
+        </article>
+        <article class="summary-card savings-card">
+          <div class="card-heading"><span>Monthly savings</span><span class="mini-icon mint">✦</span></div>
+          <strong class="big-number" id="savings-total">$539.00</strong>
+          <div class="card-foot"><span class="trend positive">↗ 18.6%</span><span>goal: <span id="summary-goal">$600</span></span></div>
+          <div class="progress-track"><span class="progress-fill mint-fill" id="savings-progress"></span></div>
+        </article>
+      </section>
+
+      <section class="performance-page panel" id="performance">
+        <div class="panel-header"><div><div class="section-kicker">Education snapshot</div><h2>Marks & performance</h2></div><button class="primary-button" id="add-mark" type="button"><span class="plus">+</span> Add mark</button></div>
+        <div class="performance-summary"><div class="performance-score"><strong id="average-score">0%</strong><span>overall average</span></div><div class="grade-badge" id="average-grade">-</div><div class="performance-note" id="performance-note">Add your marks to see how you are doing.</div></div>
+        <div class="marks-chart" id="marks-chart"></div>
+        <div class="marks-table-wrap"><table class="marks-table"><thead><tr><th>Subject</th><th>Mark</th><th>Percentage</th><th>Grade</th><th></th></tr></thead><tbody id="marks-list"></tbody></table></div>
+        <div class="empty-state" id="marks-empty">No marks yet. Add your first subject result.</div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel spending-panel">
+          <div class="panel-header"><div><div class="section-kicker">Spending pulse</div><h2>Where it goes</h2></div><select id="chart-month" class="select-control" aria-label="Choose chart period"><option>September 2026</option><option>August 2026</option></select></div>
+          <div class="chart-area">
+            <div class="donut-wrap"><div class="donut" id="donut-chart"><div class="donut-hole"><strong id="donut-total">$745</strong><small>total spent</small></div></div></div>
+            <div class="legend" id="category-legend"></div>
+          </div>
+        </article>
+        <article class="panel weekly-panel">
+          <div class="panel-header"><div><div class="section-kicker">Daily rhythm</div><h2>Weekly spending</h2></div><span class="muted-label">Last 7 days</span></div>
+          <div class="bar-chart" id="bar-chart" aria-label="Weekly spending bar chart"></div>
+          <div class="chart-summary"><span><i class="legend-dot orange"></i> Your spending</span><strong id="week-total">$164.30 <small>this week</small></strong></div>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel activity-panel" id="activity">
+          <div class="panel-header activity-header"><div><div class="section-kicker">The paper trail</div><h2>Recent activity</h2></div><button class="text-button" id="view-all" type="button">View all <span>→</span></button></div>
+          <div class="filter-row"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="food">Food</button><button class="filter" data-filter="transport">Transport</button><button class="filter" data-filter="study">Study</button></div>
+          <div class="transactions" id="transactions-list"></div>
+        </article>
+        <article class="panel budgets-panel" id="budgets">
+          <div class="panel-header"><div><div class="section-kicker">Plan ahead</div><h2>Budget pulse</h2></div><button class="text-button" id="edit-budget" type="button">Edit <span>↗</span></button></div>
+          <div class="budget-total"><strong id="budget-total-label">$1,350</strong><span>monthly limit</span></div>
+          <div id="budget-list"></div>
+          <button class="outline-button" id="new-budget" type="button"><span>+</span> New category budget</button>
+        </article>
+        <article class="panel goal-panel" id="goals">
+          <div class="panel-header"><div><div class="section-kicker">Make it count</div><h2>My goal</h2></div><button class="text-button" id="edit-goal" type="button">Edit <span>↗</span></button></div>
+          <div class="goal-amount"><strong id="goal-saved">$0</strong><span>saved of <b id="goal-target">$600</b></span></div>
+          <div class="goal-track"><span id="goal-progress"></span></div>
+          <p class="suggestion" id="goal-suggestion">Add your first expense to get a personal suggestion.</p>
+          <button class="outline-button" id="set-goal" type="button"><span>+</span> Set a savings goal</button>
+        </article>
+      </section>
+      <footer class="footer-note"><span class="tiny-mark">P</span> Built for real life, one receipt at a time. <span>•</span> Data stays in your browser.</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="close-modal" type="button" aria-label="Close">×</button>
+      <div class="section-kicker">New entry</div><h2 id="modal-title">Add an expense</h2><p class="modal-intro">Keep the little things visible.</p>
+      <form id="expense-form">
+        <label>What was it for?<input name="name" type="text" placeholder="e.g. Campus coffee" required maxlength="40"></label>
+        <div class="form-row"><label>Amount<input name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></label><label>Category<select name="category"><option value="food">Food</option><option value="transport">Transport</option><option value="study">Study</option><option value="fun">Fun</option><option value="bills">Bills</option></select></label></div>
+        <label>Date<input name="date" type="date" required></label>
+        <button class="primary-button full-width" type="submit">Save expense <span>→</span></button>
+      </form>
+    </section>
+  </div>
+  <div class="modal-backdrop" id="account-backdrop" aria-hidden="true">
+    <section class="modal account-modal" role="dialog" aria-modal="true" aria-labelledby="account-title">
+      <button class="modal-close" id="close-account" type="button" aria-label="Close">×</button>
+      <div class="brand account-brand"><span class="brand-mark">P</span><span>PRONO</span></div>
+      <div class="section-kicker">Your money, your rules</div><h2 id="account-title">Create your account</h2><p class="modal-intro">Start with your real numbers. Everything stays on this device.</p>
+      <form id="account-form">
+        <label>Your name<input name="name" type="text" placeholder="e.g. Alex Johnson" required maxlength="40"></label>
+        <label>Email address<input name="email" type="email" placeholder="you@school.edu" required></label>
+        <label>Password<input name="password" type="password" placeholder="At least 4 characters" minlength="4" required></label>
+        <label>Profile photo <input name="photo" id="profile-photo-input" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        <div class="form-row"><label>Starting balance<input name="balance" type="number" min="0" step="0.01" placeholder="0.00" required></label><label>Monthly budget<input name="budget" type="number" min="1" step="0.01" placeholder="900" required></label></div>
+        <button class="primary-button full-width" type="submit">Start my PRONO account <span>→</span></button>
+        <button class="logout-button" id="logout-button" type="button">Log out of this device</button>
+      </form>
+    </section>
+  </div>
+  <div class="modal-backdrop" id="goal-backdrop" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="goal-title">
+      <button class="modal-close" id="close-goal" type="button" aria-label="Close">×</button>
+      <div class="section-kicker">Small steps, real progress</div><h2 id="goal-title">Set a savings goal</h2><p class="modal-intro">Choose an amount that feels useful for you.</p>
+      <form id="goal-form"><label>Target amount<input name="target" type="number" min="1" step="0.01" required></label><button class="primary-button full-width" type="submit">Save my goal <span>→</span></button></form>
+    </section>
+  </div>
+  <div class="modal-backdrop" id="mark-backdrop" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="mark-title">
+      <button class="modal-close" id="close-mark" type="button" aria-label="Close">×</button>
+      <div class="section-kicker">Education record</div><h2 id="mark-title">Add a mark</h2><p class="modal-intro">Keep your progress visible across the semester.</p>
+      <form id="mark-form"><label>Subject<input name="subject" type="text" placeholder="e.g. Mathematics" maxlength="35" required></label><div class="form-row"><label>Your mark<input name="mark" type="number" min="0" step="0.01" placeholder="78" required></label><label>Total marks<input name="total" type="number" min="1" step="0.01" placeholder="100" required></label></div><button class="primary-button full-width" type="submit">Save result <span>→</span></button></form>
+    </section>
+  </div>
+  <div class="login-screen" id="login-screen" aria-hidden="true">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="brand login-brand"><span class="brand-mark">P</span><span>PRONO</span></div>
+      <div class="section-kicker">Student money + progress</div>
+      <h2 id="login-title">Welcome back.</h2>
+      <p class="login-intro">Log in to see your spending, goals, budgets, and education performance.</p>
+      <form id="login-form">
+        <label>Email address<input name="email" type="email" placeholder="you@school.edu" required></label>
+        <label>Password<input name="password" type="password" placeholder="Your password" required></label>
+        <button class="primary-button full-width" type="submit">Log in to PRONO <span>→</span></button>
+        <p class="login-error" id="login-error" role="alert"></p>
+      </form>
+      <button class="login-create" id="login-create" type="button">New here? Create an account</button>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
